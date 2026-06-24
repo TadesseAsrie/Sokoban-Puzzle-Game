@@ -1,0 +1,386 @@
+/* Color Palette Variables */
+:root {
+    --bg-gradient: linear-gradient(135deg, #1e1e2f 0%, #111119 100%);
+    --card-bg: #252538;
+    --text-main: #f0f4f8;
+    --text-muted: #9aa5b1;
+    --accent: #4d7cff;
+    --accent-hover: #3b66db;
+    --danger: #e54b4b;
+    --danger-hover: #c43232;
+    --success: #2ecc71;
+    --border-color: #383854;
+    
+    /* Tile Visuals */
+    --tile-wall: #4a5568;
+    --tile-floor: #2d3748;
+    --tile-target: #e53e3e;
+    --tile-box: #d69e2e;
+    --tile-box-ok: #38a169;
+    --tile-player: #3182ce;
+    
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-theme {
+    --bg-gradient: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --accent: #3182ce;
+    --accent-hover: #2b6cb0;
+    --danger: #e53e3e;
+    --danger-hover: #9b2c2c;
+    --border-color: #e2e8f0;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Global Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background var(--transition);
+}
+
+.game-container {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background var(--transition), border var(--transition);
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+    background: linear-gradient(45deg, var(--accent), #a3bffa);
+
+    -webkit-text-fill-color: transparent;
+}
+
+.header-controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* Button & Dropdown Interfaces */
+.btn-icon {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    font-size: 1.2rem;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background: var(--border-color);
+}
+
+.btn {
+    background: var(--border-color);
+    color: var(--text-main);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    filter: brightness(1.15);
+}
+
+.btn:focus, .btn-icon:focus, select:focus, #game-board:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.btn-primary { background: var(--accent); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-minor { font-size: 0.75rem; padding: 6px 12px; opacity: 0.7; }
+
+select {
+    background: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Statistics Grid Dashboard */
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.stat-card {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 10px 4px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.menu-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Game Board Viewport */
+.game-viewport {
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+    overflow: auto;
+    border: 1px solid var(--border-color);
+}
+
+#game-board {
+    display: grid;
+    gap: 2px;
+    margin: auto;
+}
+
+/* Board Tile Element Graphics */
+.tile {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    position: relative;
+    transition: transform 0.12s ease-out, background-color 0.2s ease;
+    user-select: none;
+}
+
+.tile.wall { background-color: var(--tile-wall); color: #cbd5e0; }
+.tile.floor { background-color: var(--tile-floor); }
+.tile.target { background-color: var(--tile-floor); box-shadow: inset 0 0 0 3px var(--tile-target); }
+.tile.box { background-color: var(--tile-box); border: 2px solid #b7791f; border-radius: 6px; }
+.tile.box-on-target { background-color: var(--tile-box-ok); border: 2px solid #276749; border-radius: 6px; animation: box-pop 0.2s ease-out; }
+.tile.player { background-color: var(--tile-player); border-radius: 50%; z-index: 2; }
+.tile.player-on-target { background-color: var(--tile-player); border-radius: 50%; box-shadow: 0 0 0 3px var(--tile-target); z-index: 2; }
+
+/* Action Panels & D-Pad */
+.action-panel {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+}
+
+.mobile-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+}
+
+.dpad-row {
+    display: flex;
+    gap: 6px;
+}
+
+.dpad-btn {
+    width: 54px;
+    height: 50px;
+    background: var(--border-color);
+    color: var(--text-main);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: manipulation;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+}
+
+.dpad-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.dead-space {
+    background: transparent;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.instructions {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
+}
+
+/* Modals & Overlays */
+.overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    border-radius: 12px;
+    z-index: 10;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    animation: modal-entrance 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+}
+
+.highlight {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.stats-table {
+    width: 100%;
+    margin: 15px 0;
+    border-collapse: collapse;
+}
+
+.stats-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stats-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Keyframe Animations */
+@keyframes modal-entrance {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes box-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+@keyframes victory-glow {
+    0% { box-shadow: 0 0 10px var(--accent); }
+    50% { box-shadow: 0 0 25px var(--success); }
+    100% { box-shadow: 0 0 10px var(--accent); }
+}
+
+.victory-animation {
+    animation: modal-entrance 0.3s ease, victory-glow 2s infinite ease-in-out;
+}
+
+/* Device Media Adjustments */
+@media(max-width: 480px) {
+    .game-container { padding: 14px; gap: 14px; }
+    h1 { font-size: 1.4rem; }
+    .tile { width: 26px; height: 26px; font-size: 1.1rem; }
+    .scoreboard { gap: 6px; }
+    .stat-value { font-size: 0.95rem; }
+}
