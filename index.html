@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sokoban Retro Puzzle</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="dark-theme">
+    <div class="game-container">
+        <header>
+            <h1>SOKOBAN</h1>
+            <div class="header-controls">
+                <button id="theme-toggle" aria-label="Toggle Theme" class="btn-icon">🌓</button>
+                <button id="mute-toggle" aria-label="Toggle Sound" class="btn-icon">🔊</button>
+                <button id="stats-btn" aria-label="View Statistics" class="btn-icon">📊</button>
+            </div>
+        </header>
+
+        <section class="scoreboard" aria-label="Game Stats">
+            <div class="stat-card">
+                <span class="stat-label">Level</span>
+                <span id="level-display" class="stat-value">1/10</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Moves</span>
+                <span id="move-display" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Time</span>
+                <span id="timer-display" class="stat-value">00:00</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Best</span>
+                <span id="best-display" class="stat-value">--</span>
+            </div>
+        </section>
+
+        <section class="menu-controls">
+            <button id="prev-btn" class="btn" aria-label="Previous Level">⏮️ Prev</button>
+            <select id="level-select" aria-label="Select Level"></select>
+            <button id="next-btn" class="btn" aria-label="Next Level">Next ⏭️</button>
+        </section>
+
+        <main class="game-viewport">
+            <div id="game-board" tabindex="0" aria-label="Sokoban Grid Board"></div>
+            <div id="pause-overlay" class="overlay hidden">
+                <p>Game Paused</p>
+                <button id="resume-btn" class="btn btn-primary">Resume</button>
+            </div>
+        </main>
+
+        <section class="action-panel">
+            <button id="restart-btn" class="btn btn-danger">Restart Level</button>
+            <button id="pause-toggle" class="btn">Pause</button>
+            <button id="reset-progress-btn" class="btn btn-minor">Reset All Data</button>
+        </section>
+
+        <section class="mobile-controls" aria-label="Mobile D-Pad">
+            <div class="dpad-row">
+                <button class="dpad-btn" id="pad-up" aria-label="Move Up">▲</button>
+            </div>
+            <div class="dpad-row">
+                <button class="dpad-btn" id="pad-left" aria-label="Move Left">◀</button>
+                <button class="dpad-btn dead-space" aria-hidden="true"></button>
+                <button class="dpad-btn" id="pad-right" aria-label="Move Right">▶</button>
+            </div>
+            <div class="dpad-row">
+                <button class="dpad-btn" id="pad-down" aria-label="Move Down">▼</button>
+            </div>
+        </section>
+
+        <footer class="instructions">
+            <h3>How to Play</h3>
+            <p>Use <strong>WASD</strong>, <strong>Arrow Keys</strong>, or the on-screen buttons to push the boxes (📦) onto targets (🎯). You can only push one box at a time, and you cannot pull boxes or pass through walls (🧱).</p>
+        </footer>
+    </div>
+
+    <div id="win-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <h2>Level Completed! 🎉</h2>
+            <p>Moves used: <span id="modal-moves" class="highlight">0</span></p>
+            <p>Time taken: <span id="modal-time" class="highlight">00:00</span></p>
+            <button id="modal-next-btn" class="btn btn-primary">Next Level</button>
+        </div>
+    </div>
+
+    <div id="complete-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-content victory-animation">
+            <h2>🏆 Game Grand Champion!</h2>
+            <p>Incredible job! You have conquered all built-in puzzles.</p>
+            <div class="summary-stats">
+                <p>Total Moves Across Game: <span id="total-moves" class="highlight">0</span></p>
+                <p>Total Combined Time: <span id="total-time" class="highlight">00:00</span></p>
+            </div>
+            <button id="play-again-btn" class="btn btn-primary">Play Again From Level 1</button>
+        </div>
+    </div>
+
+    <div id="stats-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <h2>Lifetime Stats</h2>
+            <table class="stats-table">
+                <tr><td>Games Played (Starts):</td><td id="stat-played">-</td></tr>
+                <tr><td>Levels Completed:</td><td id="stat-completed">-</td></tr>
+                <tr><td>Total Lifetime Moves:</td><td id="stat-total-moves">-</td></tr>
+            </table>
+            <button id="stats-close-btn" class="btn">Close</button>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
